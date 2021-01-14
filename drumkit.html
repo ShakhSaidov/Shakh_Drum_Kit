@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">percussion</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">bass</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">clap</span>
+    </div>
+  </div>
+
+  
+  <audio data-key="65" src="sounds/Shakh_PERCUSSION.wav"></audio>
+  <audio data-key="83" src="sounds/Shakh_TOM.wav"></audio>
+  <audio data-key="68" src="sounds/Shakh_BASS.wav"></audio>
+  <audio data-key="70" src="sounds/Shakh_KICK.wav"></audio>
+  <audio data-key="71" src="sounds/Shakh_HI_HAT.wav"></audio>
+  <audio data-key="72" src="sounds/Shakh_OPEN_HAT.wav"></audio>
+  <audio data-key="74" src="sounds/Shakh_RIDE.wav"></audio>
+  <audio data-key="75" src="sounds/Shakh_SNARE.wav"></audio>
+  <audio data-key="76" src="sounds/Shakh_CLAP.wav"></audio>
+
+<script>
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;                  //function stops if an invalid key is pressed
+    
+    key.classList.add('playing');
+    audio.currentTime = 0;              //audio starts from beginning each time
+    audio.play();
+  }
+   
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; 
+    e.target.classList.remove('playing');
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+</script>
+
+</body>
+</html>
